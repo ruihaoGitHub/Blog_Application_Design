@@ -58,7 +58,8 @@ Follow these steps to get the project up and running on your local machine.
 
 ```bash
 git clone https://github.com/ruihaoGitHub/Blog_Application_Design.git
-cd Blog
+cd Blog_Application_Design
+
 ```
 
 ### 2. Create and Activate a Virtual Environment
