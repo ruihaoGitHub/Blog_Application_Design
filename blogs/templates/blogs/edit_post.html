@@ -1,0 +1,17 @@
+{% extends "blogs/base.html" %}
+
+{% block content %}
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">Edit post</h2>
+    <a class="btn btn-outline-secondary" href="{% url 'blogs:index' %}">Back</a>
+  </div>
+
+  <form action="{% url 'blogs:edit_post' post.id %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="mb-3">{{ form.title.label_tag }}{{ form.title }}</div>
+    <div class="mb-3">{{ form.header_image.label_tag }}{{ form.header_image }}</div>
+    <div class="mb-3">{{ form.text.label_tag }}{{ form.text }}</div>
+    <button class="btn btn-primary" type="submit">Save changes</button>
+    <a class="btn btn-secondary ms-2" href="{% url 'blogs:index' %}">Cancel</a>
+  </form>
+{% endblock content %}

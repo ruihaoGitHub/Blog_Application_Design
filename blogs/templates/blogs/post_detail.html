@@ -1,0 +1,21 @@
+{% extends "blogs/base.html" %}
+
+{% block content %}
+  <div class="card shadow-sm">
+    {% if post.header_image %}
+      <img src="{{ post.header_image.url }}" class="card-img-top" alt="{{ post.title }}" style="max-height: 400px; object-fit: cover;">
+    {% endif %}
+    <div class="card-body">
+      <h2 class="card-title">{{ post.title }}</h2>
+      <h6 class="card-subtitle mb-3 text-muted">By {{ post.owner.username }} · {{ post.date_added|date:'M d, Y H:i' }}</h6>
+      <p class="card-text">{{ post.text|linebreaksbr }}</p>
+    </div>
+    <div class="card-footer bg-transparent">
+        {% if user.is_authenticated and post.owner == user %}
+          <a class="btn btn-sm btn-outline-secondary" href="{% url 'blogs:edit_post' post.id %}">Edit</a>
+          <a class="btn btn-sm btn-outline-danger ms-2" href="{% url 'blogs:delete_post' post.id %}">Delete</a>
+        {% endif %}
+        <a class="btn btn-sm btn-secondary ms-2" href="{% url 'blogs:index' %}">Back</a>
+    </div>
+  </div>
+{% endblock content %}

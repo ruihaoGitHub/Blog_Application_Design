@@ -1,0 +1,124 @@
+{% extends "blogs/base.html" %}
+
+{% block content %}
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="mb-0">Blog Posts</h1>
+    {% if user.is_authenticated %}
+      <a class="btn btn-primary" href="{% url 'blogs:new_post' %}">
+        <i class="bi bi-plus-lg"></i> Add new post
+      </a>
+    {% endif %}
+  </div>
+
+  <!-- Toolbar -->
+  <div class="card mb-4 bg-light border-0">
+    <div class="card-body py-2">
+      <form method="get" class="row g-2 align-items-center">
+        <div class="col-md-4">
+          <div class="input-group">
+            <span class="input-group-text bg-white border-end-0"><i class="bi bi-search"></i></span>
+            <input type="text" name="q" class="form-control border-start-0" placeholder="Search posts..." value="{{ query|default:'' }}">
+          </div>
+        </div>
+        <div class="col-md-3">
+          <select name="sort" class="form-select" onchange="this.form.submit()">
+            <option value="-date_added" {% if current_sort == '-date_added' %}selected{% endif %}>Newest First</option>
+            <option value="date_added" {% if current_sort == 'date_added' %}selected{% endif %}>Oldest First</option>
+            <option value="title" {% if current_sort == 'title' %}selected{% endif %}>Title (A-Z)</option>
+          </select>
+        </div>
+        {% if current_author %}
+          <div class="col-auto">
+            <span class="badge bg-secondary p-2">
+              Author: {{ current_author }} 
+              <a href="?q={{ query|default:'' }}&sort={{ current_sort }}" class="text-white text-decoration-none ms-1">&times;</a>
+            </span>
+            <input type="hidden" name="author" value="{{ current_author }}">
+          </div>
+        {% endif %}
+        <div class="col-auto ms-auto">
+           <button type="submit" class="btn btn-outline-secondary">Apply</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+
+  <div class="row">
+    {% for post in posts %}
+      <div class="col-md-6 mb-4">
+        <div class="card h-100 shadow-sm hover-shadow transition">
+          {% if post.header_image %}
+            <img src="{{ post.header_image.url }}" class="card-img-top" alt="{{ post.title }}" style="height: 200px; object-fit: cover;">
+          {% endif %}
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <h5 class="card-title mb-0">
+                <a class="text-decoration-none text-dark fw-bold" href="{% url 'blogs:post_detail' post.id %}">{{ post.title }}</a>
+              </h5>
+              <small class="text-muted" title="Estimated reading time">
+                <i class="bi bi-clock"></i> {{ post.reading_time }} min
+              </small>
+            </div>
+            <h6 class="card-subtitle mb-3 text-muted small">
+              By <a href="?author={{ post.owner.username }}&sort={{ current_sort }}" class="text-decoration-none">{{ post.owner.username }}</a> 
+              · {{ post.date_added|date:'M d, Y' }}
+            </h6>
+            <p class="card-text text-secondary">{{ post.text|truncatechars:150 }}</p>
+            <a href="{% url 'blogs:post_detail' post.id %}" class="btn btn-sm btn-outline-primary stretched-link">Read more</a>
+          </div>
+          {% if user.is_authenticated and post.owner == user %}
+          <div class="card-footer bg-transparent border-top-0 text-end">
+              <a class="btn btn-sm btn-link text-secondary p-0 z-index-2 position-relative" href="{% url 'blogs:edit_post' post.id %}">Edit</a>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    {% empty %}
+      <div class="col-12">
+        <div class="alert alert-info text-center py-5">
+          <h4>No posts found</h4>
+          <p class="mb-0">Try adjusting your search or filters.</p>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  {% if posts.has_other_pages %}
+    <nav aria-label="Page navigation">
+      <ul class="pagination justify-content-center">
+        {% if posts.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ posts.previous_page_number }}" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+        {% else %}
+          <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+        {% endif %}
+
+        {% for num in posts.paginator.page_range %}
+          {% if posts.number == num %}
+            <li class="page-item active" aria-current="page"><span class="page-link">{{ num }}</span></li>
+          {% elif num > posts.number|add:'-3' and num < posts.number|add:'3' %}
+            <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+          {% endif %}
+        {% endfor %}
+
+        {% if posts.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ posts.next_page_number }}" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        {% else %}
+          <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+        {% endif %}
+      </ul>
+    </nav>
+  {% endif %}
+{% endblock content %}

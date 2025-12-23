@@ -1,0 +1,52 @@
+{% extends "blogs/base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card shadow-sm">
+      <div class="card-header bg-primary text-white">
+        <h4 class="mb-0">Log In</h4>
+      </div>
+      <div class="card-body">
+        {% if form.errors %}
+          <div class="alert alert-danger">
+            Your username and password didn't match. Please try again.
+          </div>
+        {% endif %}
+
+        <form method="post" action="{% url 'login' %}">
+          {% csrf_token %}
+          
+          {% for field in form %}
+            <div class="mb-3">
+              <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+              {{ field }}
+              {% if field.help_text %}
+                <div class="form-text">{{ field.help_text }}</div>
+              {% endif %}
+              {% for error in field.errors %}
+                <div class="text-danger small">{{ error }}</div>
+              {% endfor %}
+            </div>
+          {% endfor %}
+
+          <button class="btn btn-primary w-100" type="submit">Log in</button>
+          <input type="hidden" name="next" value="{% url 'blogs:index' %}" />
+        </form>
+      </div>
+      <div class="card-footer text-center">
+        <small>Don't have an account? <a href="{% url 'blogs:signup' %}">Sign up here</a>.</small>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Add Bootstrap classes to form fields dynamically if they don't have them
+  document.querySelectorAll('input, select, textarea').forEach(function(input) {
+    if (!input.classList.contains('form-control') && input.type !== 'checkbox' && input.type !== 'radio' && input.type !== 'hidden') {
+      input.classList.add('form-control');
+    }
+  });
+</script>
+{% endblock content %}

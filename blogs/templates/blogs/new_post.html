@@ -1,0 +1,13 @@
+{% extends "blogs/base.html" %}
+
+{% block content %}
+  <h2>New Post</h2>
+  <form action="{% url 'blogs:new_post' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="mb-3">{{ form.title.label_tag }}{{ form.title }}</div>
+    <div class="mb-3">{{ form.header_image.label_tag }}{{ form.header_image }}</div>
+    <div class="mb-3">{{ form.text.label_tag }}{{ form.text }}</div>
+    <button class="btn btn-success" type="submit">Add post</button>
+    <a class="btn btn-secondary ms-2" href="{% url 'blogs:index' %}">Cancel</a>
+  </form>
+{% endblock content %}
