@@ -97,7 +97,15 @@ python manage.py migrate
 python manage.py createsuperuser
 ```
 
-### 5. Run the Server
+### 5. (Optional) Populate with Demo Data
+
+To quickly add test users and posts, run:
+
+```bash
+python create_data.py
+```
+
+### 6. Run the Server
 
 Start the local development server:
 

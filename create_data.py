@@ -1,6 +1,5 @@
 import os
 import django
-import random
 
 # Setup Django environment
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Blog.settings')

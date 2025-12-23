@@ -5,6 +5,7 @@ from django.core.paginator import Paginator
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
+from django.db import models
 
 from .models import BlogPost
 from .forms import BlogPostForm
