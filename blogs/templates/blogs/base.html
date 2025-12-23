@@ -14,10 +14,12 @@
     <div class="container">
       <a class="navbar-brand" href="{% url 'blogs:index' %}">Blog</a>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        {% block navbar_search %}
         <form class="d-flex me-auto" method="get" action="{% url 'blogs:index' %}">
           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="q" value="{{ request.GET.q }}">
           <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
+        {% endblock navbar_search %}
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           {% if user.is_authenticated %}
             <li class="nav-item"><span class="nav-link">Hello, {{ user.username }}</span></li>
