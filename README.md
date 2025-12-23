@@ -22,7 +22,6 @@ A robust and secure multi-user blog application built with **Django**. This proj
   - [📸 Screenshots](#-screenshots)
     - [Home Page](#home-page)
     - [Login Interface](#login-interface)
-  - [📄 License](#-license)
 
 ---
 
@@ -156,9 +155,3 @@ Blog/
 ### Login Interface
 ![Login Page](images/login_page.png)
 *Secure user login page.*
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
