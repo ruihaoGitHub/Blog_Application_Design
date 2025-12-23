@@ -19,9 +19,6 @@ A robust and secure multi-user blog application built with **Django**. This proj
     - [5. Run the Server](#5-run-the-server)
   - [📖 Usage Guide](#-usage-guide)
   - [📂 Project Structure](#-project-structure)
-  - [📸 Screenshots](#-screenshots)
-    - [Home Page](#home-page)
-    - [Login Interface](#login-interface)
 
 ---
 
@@ -143,15 +140,3 @@ Blog/
 ├── manage.py               # Django command-line utility
 └── requirements.txt        # Project dependencies
 ```
-
----
-
-## 📸 Screenshots
-
-### Home Page
-![Home Page](images/home_page.png)
-*Overview of recent blog posts.*
-
-### Login Interface
-![Login Page](images/login_page.png)
-*Secure user login page.*
